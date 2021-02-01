@@ -3,344 +3,478 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArrayHelper;
+using System.IO;
+
+namespace _4_Lesson_HT_Arrays
 
 
-namespace SecondLessonHT
 {
-    class Program
-
-
-
-
+    #region Task 3 
+    /// <summary>
+    /// Структура для проверки пароля и логина
+    /// </summary>
+    struct Account
     {
-        static int  totalA_B (int  startDiap, int endDiap)
-        {
-            int total = 0;
-            while ( startDiap < endDiap)
-            {
-                 total = startDiap;
-                startDiap++;
-
-            }
-            return total;
-        }
-
-
-
+        public string login;
+        public string password;
 
         /// <summary>
-        /// Vychislenie summy cifr cisla polzovatelja
+        /// Метод для проверки авторизации
         /// </summary>
-        /// <param name="userNumber"> Cislo polzovatelja </param>
+        /// <param name="login"> логин </param>
+        /// <param name="password"> пароль </param>
         /// <returns></returns>
-        static int sumOfAllNumbers (int userNumber)
+        static bool Autorization(string login, string password)
         {
-            if (userNumber < 10 ) /* uslovie vychoda - esli resultat menshe 10 ,
-                                   * znacit v cisle 1 cifra, otdelyjat' nechego */
-            {
-                return userNumber;
-            }
-            int digit = userNumber % 10;
-            int nextUserNumber = userNumber / 10;
-            return digit + sumOfAllNumbers(nextUserNumber);
+            Account accountVeryfy = LoadAccount(); // Создание переменной в которую загружаем пароль и логин  
+            bool isAutorized = false;
+            if (login == accountVeryfy.login && password == accountVeryfy.password)
+                isAutorized = true;
+            return isAutorized;
         }
-
-
-
-
         /// <summary>
-        /// Vyvod cisel v zadannom polzovatelem diapazone
+        ///  попытка авторизации 
         /// </summary>
-        /// <param name="uNumber1"> nachalo diapazona</param>
-        /// <param name="uNumber2"> konec diapazona </param>
-        static void outputUserNumber(int uNumber1, int uNumber2)
+        static void Veryfication()
         {
-           
-
-            Console.WriteLine("Type your number 1 ");
-
-             uNumber1 = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Type your number 2 ");
-
-             uNumber2 = int.Parse(Console.ReadLine());
-
-            int countNum = uNumber1;
-
-            while (countNum <= uNumber2)
-            {
-                Console.WriteLine(countNum);
-                countNum++;
-            }
-        }
-
-
-
-        /// <summary>
-        /// prisvojenie konstanty normalneho indeksa
-        /// </summary>
-        const double normalInd = 18;
-
-        
-
-        /// <summary>
-        /// vybor najibolshego cisla iz 3
-        /// </summary>
-        /// <param name="a">Pervoe cislo</param>
-        /// <param name="b">Vtoroe cislo</param>
-        /// <param name="c">tretyje cislo</param>
-        /// <returns></returns>
-        static double NumberComparing (double a, double b , double c)
-        {
-            double max;
-            if (a > b)
-            {
-                if (a > c)
-                {
-                    max = a;
-                }
-                else
-
-                    max = c;
-                
-            }
-            else
-            {
-                if (b > c)
-                {
-                    max = b;
-                }
-                else
-                {
-                    max = c;
-                }
-
-            }
-            return max;
-            
-        }
-
-
-
-
-        /// <summary>
-        /// Rasscet indeksa massy tela
-        /// </summary>
-        /// <param name="height"> vysota </param>
-        /// <param name="weight"> ves </param>
-        /// <returns></returns>
-        static double  weightInd(double height, double weight)
-        {
-
-           
-            double Indeks = weight / Math.Pow (height, 2);
-            return Indeks;
-            
-        }
-
-        /// <summary>
-        /// Rasschet korrektirovki vesa
-        /// </summary>
-        /// <param name="height"> vysota </param>
-        /// <param name="weight"> ves </param>
-        /// <returns></returns>
-        static double weightCalc(double height, double weight)
-        {
-            double corWeight = (weight - (normalInd * Math.Pow(height, 2)));
-            return corWeight;
-        }
-
-
-
-        /// <summary>
-        /// podshet cifr v cisle
-        /// </summary>
-        /// <param name="msg">Vvodnye dannye o cisle polzovatelja </param>
-        static void NumQuan (string msg)
-        {
-            int i = 0;
-            foreach (char element in msg)
-            {
-                i++;    
-            }
-            Console.WriteLine($"Your have {i}  quantity of numbers");
-
-        }
-
-
-
-        static void Main(string[] args)
-        {
-           
-            #region Task1
-            Console.WriteLine("Type 3 numbers");
-            double num1 = double.Parse(Console.ReadLine());
-            double num2 = double.Parse(Console.ReadLine());
-            double num3 = double.Parse(Console.ReadLine());
-           
-            Console.WriteLine("Biggest number is " + NumberComparing(num1, num2, num3));
-
-            Console.ReadLine();
-            Console.Clear();
-
-
-            #endregion
-
-            #region Task 2
-            Console.WriteLine("Type number");
-            NumQuan(Console.ReadLine());
-
-
-            Console.ReadKey();
-            Console.Clear();
-            #endregion
-
-            #region task 3
-
-
-            double num, sum = 0;
-            do
-            {
-                Console.WriteLine("Type any number, except 0");
-                num = double.Parse(Console.ReadLine());
-                
-                if (num % 2 != 0 & num > 0)
-                {
-                    sum += num;
-                }
-
-            }
-            while (num != 0);
-            Console.WriteLine($"Total {sum}");
-
-            #endregion 
-
-
-
-
-            #region Task 4
-            string corrLogin = "root";
-            string corrPasword = "GeekBrains";
-            int tryCount = 0;
-
-
-
+            int count = 3;
+            string login, password;
 
             do
             {
-                Console.WriteLine("Type your login");
-                string uLogin = Console.ReadLine();
-                Console.WriteLine("Type your password");
-                string uPassword = Console.ReadLine();
-                
+                Console.WriteLine($"Введите логин и пароль. У вас есть {count} попыток.");
+                Console.Write("Введите логин: ");
+                login = Console.ReadLine();
+                Console.Write("Введите пароль: ");
+                password = Console.ReadLine();
 
-                if (corrLogin == uLogin & corrPasword == uPassword)
+                if (Autorization(login, password))
                 {
-                    Console.WriteLine("You've been authorised ");
+                    Console.Clear();
+                    Console.WriteLine("Вы ввели верный логин и пароль.");
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("Incorrect password or login. Try once more.  You have " + (3 - tryCount) + " Tries  left ");
+                    Console.Clear();
+                    Console.WriteLine("Вы ввели неверный логин и/или пароль.");
+                    count--;
                 }
-                tryCount++;
-            }
-            while (tryCount < 3);
 
+            } while (count > 0);
+
+            Console.ReadKey();
+        }
+        static Account LoadAccount()
+        {
+            Account accountVeryfy;
+            var fileName = AppDomain.CurrentDomain.BaseDirectory + "Account.txt";
+            if (File.Exists(fileName))
+            {
+                StreamReader str = new StreamReader(fileName);
+                accountVeryfy.login = str.ReadLine();
+                accountVeryfy.password = str.ReadLine();
+                return accountVeryfy;
+            }
+            else
+            {
+                throw new FileNotFoundException("Данный файл не существует ");
+            }
+        }
+
+
+
+    }
+    #endregion
+
+
+    #region task 4
+
+    class TwoDimArray
+    {
+        int arrSizeHor;
+        int arrSizeVert;
+        int arrFirstValue;
+        int arrStepValue;
+
+        private int[,] array; // Говорим, что класс работает с дввмерным массивом
+
+        public TwoDimArray() // конструктор
+        {
+
+        }
+
+        
+
+
+        /// <summary>
+        /// Конструктор, заполняющий массив числами в заданном диапазоне
+        /// </summary>
+        /// <param name="arrSize"></param>
+        /// <param name="arrFirstValue"></param>
+        /// <param name="arrStepValue"></param>
+        public TwoDimArray(ref int arrSizeHor, ref  int arrSizeVert, ref  int arrFirstValue, ref   int arrStepValue)
+        {
+            array = new int[arrSizeHor, arrSizeVert];
+            array[0, 0] = arrFirstValue;
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                    array[i, j] = arrFirstValue + arrStepValue;
+               
+            }
+            
+
+
+
+        }
+
+        public int[,] Array
+        {
+            get { return array; }
+            set { array = value; }
+        }
+
+       
+        public int this[int i, int j]
+        {
+            get { return array[i,j]; }
+            set { array[i,j] = value; }
+        }
+        #endregion
+
+
+        /// <summary>
+        /// Ввод массива
+        /// </summary>
+        /// <returns></returns>
+        public string PrintArray()
+        {
+            string result = " ";
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j< array.GetLength(1); j++)
+                {
+                    Console.WriteLine($" {array[i,j]}");
+                }
+
+            }
+            return result;
+
+        }
+        /// <summary>
+        /// Изменение знаков елементов массива
+        /// </summary>
+        public void Inverse()
+        {
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                Array[i,j] = -Array[i,j];
+            }
+        }
+        /// <summary>
+        /// умножение елементов массива на число
+        /// </summary>
+        /// <param name="mult"></param>
+        public void Multi(int mult)
+        {
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                Array[i,j] *= mult;
+            }
+        }
+        /// <summary>
+        /// вывод максимального лемента массива
+        /// </summary>
+        /// <returns></returns>
+        public int[] MaxNumberElenent()
+        {
+            int maxNumber = Array[0,0];
+            int[] max = { 0, 0 };
+            for (int i = 0; i < Array.GetLength(0); i++)
+            {
+                for (int j = 1; j < Array.GetLength(1); j++)
+                {
+                    if (maxNumber < Array[i, j])
+                    {
+                        maxNumber = Array[i, j];
+                        max[0] = i;
+                        max[1] = j;
+                    }
+                }
+            }
+            return max;
+
+
+        }
+
+    }
+
+    
+
+
+
+    class MyArray
+    {
+        private int []  array; // Говорим, что класс работает с одномерным массивом
+
+        public MyArray() // конструктор
+        {
+
+        }
+
+        #region task 2.1 Создание конструктора, заполняющего массив числами в заданном диапазоне
+
+
+        /// <summary>
+        /// Конструктор, заполняющий массив числами в заданном диапазоне
+        /// </summary>
+        /// <param name="arrSize"></param>
+        /// <param name="arrFirstValue"></param>
+        /// <param name="arrStepValue"></param>
+        public MyArray(int arrSize, int arrFirstValue, int arrStepValue)
+        {
+            array = new int[arrSize];
+            array[0] = arrFirstValue;
+            for (int i = 1; i < arrSize; i++)
+            {
+                array[i] = arrFirstValue + arrStepValue;
+            }
+
+
+
+        }
+
+        public int[] Array
+        {
+            get { return array; }
+            set { array = value; }
+
+        }
+        /// <summary>
+        /// индексное свойство для доступа к элементу массивва с модификатором private
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public int this[int i]
+        {
+            get { return array[i]; }
+            set { array[i] = value; }
+        }
+        #endregion
+
+
+        /// <summary>
+        /// Ввод массива
+        /// </summary>
+        /// <returns></returns>
+        public string PrintArray()
+        {
+            string result = " ";
+            for ( int i = 0;  i < array.Length; i++)
+            {
+                result += + array[i];
+                
+            }
+            return result;
+
+        }
+        /// <summary>
+        /// Изменение знаков елементов массива
+        /// </summary>
+        public void Inverse()
+        {
+            for (int i = 0; i < Array.Length; i++)
+            {
+                Array[i] = -Array[i];
+            }
+        }
+        /// <summary>
+        /// умножение елементов массива на число
+        /// </summary>
+        /// <param name="mult"></param>
+        public void Multi(int mult)
+        {
+            for (int i = 0; i < Array.Length; i++)
+            {
+                Array[i] *= mult;
+            }
+        }
+        /// <summary>
+        /// вывод максимального лемента массива
+        /// </summary>
+        /// <returns></returns>
+        public int MaxCount()
+        {
+            int maxNumber = Array[0];
+            int counterMaxNumber = 1;
+            for (int i = 1; i < Array.Length; i++)
+            {
+                if (maxNumber < Array[i])
+                {
+                    maxNumber = Array[i];
+                    counterMaxNumber = 1;
+                }
+                else if (maxNumber == Array[i])
+                {
+                    counterMaxNumber++;
+                }
+            }
+            return counterMaxNumber;
+        }
+
+
+        #region task 2.2 Сохранение и вызов массива из файла
+
+       public  static int [] LoadArrayFromFile (string DataFile_Name)
+        {
+            if (File.Exists(DataFile_Name))
+            {
+                StreamReader reader = new StreamReader(DataFile_Name); 
+                var str =  reader.ReadLine(); // Считывает данные из файла построчно
+                var arrize = int.Parse(str); // Первая строка в нашем текстовом файле - размерность массива. считываем ее 
+                var a = new int[arrize]; // инициализируем массив такой же размерности
+                for ( int i = 0; i < arrize; i++) // перебором считываем каждый элемент построчно
+                {
+                    a[i] = int.Parse(reader.ReadLine());
+                }
+                reader.Close(); // закрываем метод реадер
+                return a; // возврращаем массив с обработанными данными
+
+
+            }
+            else
+            {
+                throw new FileNotFoundException(); 
+            }
+        }
+
+        #endregion
+
+
+
+    }
+
+
+
+
+    class Program
+    {
+
+
+       
+        /// <summary>
+        /// Генератор случайных чисел
+        /// </summary>
+        /// <param name="from">start diapazon</param>
+        /// <param name="to"> end diapazon </param>
+        /// <returns></returns>
+        static int DiapazonRand(int from, int to)
+        {
+           
+            Random rand = new Random((int)DateTime.Now.Ticks);
+            int randomNumber = rand.Next() * (to - from) + from;
+            return randomNumber;
+
+        }
+
+
+      
+        static void Main(string[] args)
+        {
+
+           
+           
+
+
+
+            #region Task1 Сумма пар массива
+
+
+            int from = -10000;
+            int  to = 10000;
+            int sumOfArrayCouples = 0;
+
+            int[] userArray = new int[20];
+            for (int i = 0; i < userArray.Length; i++)
+            {
+                userArray[i] = DiapazonRand(from, to);
+            }
+            Array.Sort(userArray);
+
+
+            for (int i = 0; i < userArray.Length; i++)
+            {
+                if (userArray[i] % 3 != 0)
+                {
+                    i++;
+                    if (userArray[i] % 3 !=0)
+                        sumOfArrayCouples++;
+
+                }
+                   
+
+                
+                    
+                    
+
+                
+            }
+            Console.WriteLine($"summ of array couples = {sumOfArrayCouples}");
+
+            
 
             Console.ReadLine();
             Console.Clear();
+            #endregion
 
 
+
+            #region task 2.1
+
+            MyArray userArray2 = new MyArray(10, 12, 5);
+            Console.WriteLine($" Сгенерированный массив {userArray2.PrintArray() }");
+
+            userArray2.Inverse();
+            Console.WriteLine($" изменение элементов массива {userArray2.PrintArray()}");
+
+            MyArray userArray3 = new MyArray(20, 11, 2);
+
+
+            userArray3.Multi(2);
+            Console.WriteLine($"умножение массива на число {userArray3.PrintArray()}");
+
+
+            Console.WriteLine($"Максимальный элемент массива {userArray3.MaxCount()}");
 
 
 
 
             #endregion
 
+            #region task 2.2 массив с использованием подгрузочного файла
 
-            #region task 5
+            var DataFile_Name = AppDomain.CurrentDomain.BaseDirectory + "lesson4TextFile.txt"; /*Свойство возвращает папку, из которой запускается приложение. 
+                                                                                          * Склеиваем директорию и имя файла - получаем полное имя файла и возможность с ним работать */
+            var arrFromFile =  MyArray.LoadArrayFromFile(DataFile_Name);
+            for (int i = 0; i < arrFromFile.Length; i++)
+            {
+                Console.WriteLine($"{arrFromFile[i]}");
+            }
+
             
-            Console.WriteLine("Type your height in meters");
-            double height = double.Parse(Console.ReadLine());
-            Console.WriteLine("Type your weight");
-            double weight = double.Parse(Console.ReadLine());
-            double index = weightInd(height, weight); // ispolzyjem metod , sctitajushji indeks massy tela
-
-            Console.WriteLine($" Your weight index is  {index}"  );
-
-           if (index < 16)
-            {
-                Console.WriteLine(" You need to gain weight" + weightCalc(height, weight) + "kg");
-                
-                
-                
-            }
-           else if (index < 18)
-            {
-                Console.WriteLine("You need to gain a little " + weightCalc(height, weight) + "kg");
-
-            }
-           else if (index > 18)
-            {
-                Console.WriteLine("You're fat, slow down with food. You already have " + weightCalc(height, weight) + " kg for more");
-            }
-           else
-            {
-                Console.WriteLine("You are in your best condition");
-            }
-
-
-
-
-
-
-            #endregion
-
-
-            #region task6
-
-            DateTime start = DateTime.Now;
-            System.Threading.Thread.Sleep(20); 
-            int total = 0;
-            for (int count = 0; count < 1000000000; count++)
-            {
-                Console.WriteLine("type your number");
-                int userNumber = int.Parse(Console.ReadLine());
-                
-
-                if ( userNumber % sumOfAllNumbers(userNumber) == 0 )
-                {
-                    total += userNumber;
-                }
-                else
-                {
-                    Console.WriteLine(" number isn't good");
-                }
-            }
+           
+           
             
-            DateTime finish = DateTime.Now;
-            Console.WriteLine(finish - start + "  time it takes  "  + "/n total of user numbers " + total);
-
             #endregion
 
-            #region Task 7
-
-            Console.WriteLine("Type first number ");
-            int a = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Type second number ");
-            int b = int.Parse(Console.ReadLine());
-
-            outputUserNumber(a, b);
-
-            Console.WriteLine($"total of your numbers  is {totalA_B(a, b)}"); 
 
 
 
 
-
-            #endregion
 
 
 
